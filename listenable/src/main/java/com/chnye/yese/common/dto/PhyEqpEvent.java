@@ -1,16 +1,13 @@
 package com.chnye.yese.common.dto;
 
+import com.chnye.yese.common.able.other.AbstractEvent;
 import com.chnye.yese.common.able.other.IEvent;
 
-public class PhyEqpEvent implements IEvent<PhyEqp>{
+public class PhyEqpEvent extends AbstractEvent<PhyEqp>{
 
-	public PhyEqp source;
-	
-
-	@Override
-	public PhyEqp getSource() {
-		// TODO Auto-generated method stub
-		return source;
+	public PhyEqpEvent(PhyEqp source) {
+		super(source);
+		// TODO Auto-generated constructor stub
 	}
 
 }
