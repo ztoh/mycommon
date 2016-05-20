@@ -1,6 +1,6 @@
 package com.chnye.yese.common.able.other;
 
-public class AbstractEvent<T> implements IEvent<T> {
+public abstract class AbstractEvent<T> implements IEvent<T> {
 
 	private final T source;
 	
