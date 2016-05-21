@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import com.chnye.yese.common.able.IListener;
+import com.chnye.yese.common.able.other.EventManager.EventNotifyFunctor;
 
 public class EventManager2<L extends IListener<E>, E extends IEvent2<ET, ?>, ET extends Enum<?>> implements IEventListenable2<L>{
 
@@ -67,5 +68,22 @@ public class EventManager2<L extends IListener<E>, E extends IEvent2<ET, ?>, ET 
 		return listeners;
 	}
 
-
+	/**
+	 *  提供给外界一个机会，以其自己的方式调用
+	 * @author chnye
+	 *
+	 * @param <L>
+	 * @param <E>
+	 */
+	public static interface EventNotifyFunctor2<L extends IListener<E>, E>{
+		void notify( L listener, E event );
+	}
+	
+	public void fireEvent(EventNotifyFunctor2<L,E> functor, E event ){
+		Set<L> listeners = listenerMaps.get( event.getClass() );
+		for( L listener : listeners ){
+			functor.notify( listener, event);
+		}
+	}
+	
 }

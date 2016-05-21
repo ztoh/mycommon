@@ -38,4 +38,22 @@ public class EventManager<L extends IListener<E>, E> implements IListenable<L>{
 			listener.notify( event );
 		}
 	}
+	
+	/**
+	 *  提供给外界一个机会，以其自己的方式调用
+	 * @author chnye
+	 *
+	 * @param <L>
+	 * @param <E>
+	 */
+	public static interface EventNotifyFunctor<L extends IListener<E>, E>{
+		void notify( L listener, E event );
+	}
+	
+	public void fireEvent(EventNotifyFunctor<L,E> functor, E event ){
+		for( L listener : listeners ){
+			functor.notify( listener, event);
+		}
+	}
+	
 }
