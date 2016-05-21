@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EventManager<L extends IEventListener<E>, E extends IEvent<?>> implements IEventListenable<L>{
+import com.chnye.yese.common.able.IListenable;
+import com.chnye.yese.common.able.IListener;
+
+public class EventManager<L extends IListener<E>, E> implements IListenable<L>{
 
 	private List<L> listeners = new ArrayList<L>();
 	
