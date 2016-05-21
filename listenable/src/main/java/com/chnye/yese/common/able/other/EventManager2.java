@@ -1,8 +1,5 @@
 package com.chnye.yese.common.able.other;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,27 +18,38 @@ public class EventManager2<L extends IListener<E>, E extends IEvent2<ET, ?>, ET 
 //		if( !listeners.contains( listener ) ){
 //			listeners.add( listener );
 //		}
-		Set<L> listeners = listenerMaps.get( eventClass );
-		if( listeners == null ){
-			listeners = new CopyOnWriteArraySet<L>();
-		}
+//		Set<L> listeners = listenerMaps.get( eventClass );
+//		if( listeners == null ){
+//			listeners = new CopyOnWriteArraySet<L>();
+//		}
+		Set<L> listeners = nullSafeGet( eventClass );
 //		if( !listeners.contains( listener ) ){
 			listeners.add( listener );
 //		}
-		listenerMaps.put( eventClass, listeners );
+//		listenerMaps.put( eventClass, listeners );
 	}
 
 	@Override
 	public void removeListener(Class<?> eventClass, L listener) {
 		// TODO Auto-generated method stub
-		Set<L> listeners = listenerMaps.get( eventClass );
-		if( listeners != null && listeners.contains( listener ) ){
+//		Set<L> listeners = listenerMaps.get( eventClass );
+		Set<L> listeners = nullSafeGet( eventClass );
+//		if( listeners != null && listeners.contains( listener ) ){
+		if( listeners.contains( listener ) ){
 			listeners.remove( listener );
+		}
+	}
+
+	@Override
+	public void removeListener(L listener) {
+		// TODO Auto-generated method stub
+		for( Map.Entry<Class, Set<L>>  entry : listenerMaps.entrySet() ){
+			entry.getValue().remove( listener );
 		}
 	}
 	
 	/**
-	 * 对外接口
+	 *
 	 */
 	public void fireEvent( E event ){
 		Set<L> listeners = listenerMaps.get( event.getClass() );
@@ -49,4 +57,15 @@ public class EventManager2<L extends IListener<E>, E extends IEvent2<ET, ?>, ET 
 			listener.notify( event );
 		}
 	}
+	
+	private Set<L> nullSafeGet( Class<?> eventClass ){
+		Set<L> listeners = listenerMaps.get( eventClass );
+		if( listeners == null ){
+			listeners = new CopyOnWriteArraySet<L>();
+			listenerMaps.putIfAbsent( eventClass, listeners );
+		}
+		return listeners;
+	}
+
+
 }
