@@ -1,18 +1,22 @@
 package com.chnye.yese.common.able.other;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EventManager<L extends IEventListener<E>, E extends IEvent<?>> implements IEventListenable<L>{
 
 	private List<L> listeners = new ArrayList<L>();
 	
+	
 	@Override
-	public void addListener(L listener) {
+	public void addListener( L listener) {
 		// TODO Auto-generated method stub
 		if( !listeners.contains( listener ) ){
 			listeners.add( listener );
 		}
+		
 	}
 
 	@Override

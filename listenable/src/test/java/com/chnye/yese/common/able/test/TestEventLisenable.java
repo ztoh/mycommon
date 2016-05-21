@@ -13,13 +13,13 @@ public class TestEventLisenable {
 
 	private MyLogger  myLogger = null;
 	private MyAsyncMessageQueue  myAsyncMessageQueue = null;
-	private EventManager<IEventListener<IEvent<PhyEqp>>, IEvent<PhyEqp>>  eventManager = null;
+	private EventManager<IEventListener<IEvent<?>>, IEvent<?>>  eventManager = null;
 	
 	@Before
 	public void init(){
 		myLogger = new MyLogger();
 		myAsyncMessageQueue = new MyAsyncMessageQueue();
-		eventManager = new EventManager<IEventListener<IEvent<PhyEqp>>, IEvent<PhyEqp>>();
+		eventManager = new EventManager<IEventListener<IEvent<?>>, IEvent<?>>();
 		
 	}
 	
@@ -31,8 +31,7 @@ public class TestEventLisenable {
 		
 		for( int i = 0; i < 10; i++ ){
 			PhyEqp  phyEqp = new PhyEqp( i, "phy" + i, "eqp" + i );
-			PhyEqpEvent event = new PhyEqpEvent();
-			event.source = phyEqp;
+			PhyEqpEvent event = new PhyEqpEvent( phyEqp );
 			eventManager.fireEvent( event );
 		}
 	}
