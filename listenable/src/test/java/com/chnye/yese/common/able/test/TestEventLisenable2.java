@@ -7,6 +7,7 @@ import com.chnye.yese.common.able.IListener;
 import com.chnye.yese.common.able.other.EventManager2;
 import com.chnye.yese.common.able.other.IEvent2;
 import com.chnye.yese.common.dto.PhyEqp;
+import com.chnye.yese.common.dto.PhyEqpEvent;
 import com.chnye.yese.common.dto.PhyEqpEvent2;
 import com.chnye.yese.common.dto.ResSpec;
 
@@ -27,8 +28,9 @@ public class TestEventLisenable2 {
 	@Test
 	public void test(){
 		
-		eventManager2.addListener( ResSpec.OBD, myLogger2 );
-		eventManager2.addListener( ResSpec.OLT, myAsyncMessageQueue2 );
+		eventManager2.addListener( PhyEqpEvent.class, myLogger2 );
+		eventManager2.addListener( PhyEqpEvent2.class, myAsyncMessageQueue2 );
+		eventManager2.addListener( PhyEqpEvent2.class, myAsyncMessageQueue2 );
 		
 		for( int i = 0; i < 10; i++ ){
 			PhyEqp  phyEqp = new PhyEqp( i, "phy" + i, "eqp" + i );

@@ -4,33 +4,37 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import com.chnye.yese.common.able.IListener;
 
-public class EventManager2<L extends IListener<E>, E extends IEvent2<ET, ?>, ET extends Enum<?>> implements IEventListenable2<L,ET>{
+public class EventManager2<L extends IListener<E>, E extends IEvent2<ET, ?>, ET extends Enum<?>> implements IEventListenable2<L>{
 
-	private Map<ET, List<L>> listenerMaps = new HashMap<ET,List<L>>();
+	private ConcurrentMap<Class, Set<L>> listenerMaps = new ConcurrentHashMap<Class,Set<L>>();
 	
 	@Override
-	public void addListener(ET eventType, L listener) {
+	public void addListener(Class<?> eventClass, L listener) {
 		// TODO Auto-generated method stub
 //		if( !listeners.contains( listener ) ){
 //			listeners.add( listener );
 //		}
-		List<L> listeners = listenerMaps.get( eventType );
+		Set<L> listeners = listenerMaps.get( eventClass );
 		if( listeners == null ){
-			listeners = new ArrayList<L>();
+			listeners = new CopyOnWriteArraySet<L>();
 		}
-		if( !listeners.contains( listener ) ){
+//		if( !listeners.contains( listener ) ){
 			listeners.add( listener );
-		}
-		listenerMaps.put( eventType, listeners );
+//		}
+		listenerMaps.put( eventClass, listeners );
 	}
 
 	@Override
-	public void removeListener(ET eventType, L listener) {
+	public void removeListener(Class<?> eventClass, L listener) {
 		// TODO Auto-generated method stub
-		List<L> listeners = listenerMaps.get( eventType );
+		Set<L> listeners = listenerMaps.get( eventClass );
 		if( listeners != null && listeners.contains( listener ) ){
 			listeners.remove( listener );
 		}
@@ -40,7 +44,7 @@ public class EventManager2<L extends IListener<E>, E extends IEvent2<ET, ?>, ET 
 	 * 对外接口
 	 */
 	public void fireEvent( E event ){
-		List<L> listeners = listenerMaps.get( event.getEventType() );
+		Set<L> listeners = listenerMaps.get( event.getClass() );
 		for( L listener : listeners ){
 			listener.notify( event );
 		}

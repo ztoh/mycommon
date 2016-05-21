@@ -31,7 +31,7 @@ public class EventManager<L extends IListener<E>, E> implements IListenable<L>{
 	}
 	
 	/**
-	 * 对外接口
+	 * 
 	 */
 	public void fireEvent( E event ){
 		for( L listener : listeners ){

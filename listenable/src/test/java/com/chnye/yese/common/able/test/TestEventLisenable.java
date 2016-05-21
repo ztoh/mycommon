@@ -6,7 +6,6 @@ import org.junit.Test;
 import com.chnye.yese.common.able.IListener;
 import com.chnye.yese.common.able.other.EventManager;
 import com.chnye.yese.common.able.other.IEvent;
-import com.chnye.yese.common.able.other.IEventListener;
 import com.chnye.yese.common.dto.PhyEqp;
 import com.chnye.yese.common.dto.PhyEqpEvent;
 

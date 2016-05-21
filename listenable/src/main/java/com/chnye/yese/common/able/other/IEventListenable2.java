@@ -2,7 +2,7 @@ package com.chnye.yese.common.able.other;
 
 
 
-public interface IEventListenable2<L, ET>{
-	void addListener( ET eventType, L listener );
-	void removeListener( ET eventType, L listener );
+public interface IEventListenable2<L>{
+	void addListener( Class<?> eventClass, L listener );
+	void removeListener( Class<?> eventClass, L listener );
 }
